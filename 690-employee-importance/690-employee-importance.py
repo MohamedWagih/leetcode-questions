@@ -10,17 +10,13 @@ from collections import deque
 class Solution:
     def getImportance(self, employees: List['Employee'], id: int) -> int:
         total_importance = 0
+        employees_dict = {emp.id: emp for emp in employees}
         
-        def get_emp(id):
-            for emp in employees:
-                if emp.id == id:
-                    return emp
-                
         def dfs(emp):
             nonlocal total_importance
             for subordinate in emp.subordinates:
-                dfs(get_emp(subordinate))
+                dfs(employees_dict[subordinate])
             total_importance += emp.importance
         
-        dfs(get_emp(id))
+        dfs(employees_dict[id])
         return total_importance
