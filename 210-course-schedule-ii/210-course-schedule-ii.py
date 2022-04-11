@@ -18,17 +18,18 @@ class Solution:
             if visted[node] == 0:
                 visted[node] = 1
                 for adj in adj_list[node]:
-                    dfs(adj)
+                    if not dfs(adj): return False
                 stack.append(node)
                 visted[node] = 2
             
             # a cycle exist 
             elif visted[node] == 1:
-                has_cycle = True
-                return
+                return False
+            
+            return True
             
 
         for node in range(numCourses):
-            dfs(node)
+            if not dfs(node): return []
 
-        return stack[::-1] if not has_cycle else []
+        return stack[::-1]
