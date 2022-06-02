@@ -3,14 +3,12 @@ class Solution:
         rows = len(matrix)
         cols = len(matrix[0])
         
-        transpose_matrix = []
+        # a new matrix with flipped dimentions
+        transpose_matrix = [[0 for _ in range(rows)] for _ in range(cols)]
         
-        for i in range(rows):
-            for j in range(cols):
-                if j >= len(transpose_matrix):
-                    transpose_matrix.append([])
-                if i >= len(transpose_matrix[j]):
-                    transpose_matrix[j].append(0)
-                transpose_matrix[j][i] = matrix[i][j]
+        for row in range(rows):
+            for col in range(cols):
+                # flip element dimentions 
+                transpose_matrix[col][row] = matrix[row][col]
         
         return transpose_matrix
