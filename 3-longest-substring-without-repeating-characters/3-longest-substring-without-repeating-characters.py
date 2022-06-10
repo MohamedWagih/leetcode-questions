@@ -1,17 +1,16 @@
-from collections import defaultdict
-
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
         win_start = 0
         longest = 0
-        positions = defaultdict(int)
-        
+        pos = {}
         for win_end in range(len(s)):
-            if s[win_end] in positions and positions[s[win_end]] >= win_start:
-                win_start = positions[s[win_end]] + 1 
+            curr_char = s[win_end]
+
+            if curr_char in pos:
+                win_start = max(win_start, pos[curr_char]+1)
+            pos[curr_char] = win_end
             
-            positions[s[win_end]] = win_end
-            
-            longest = max(longest, win_end - win_start + 1)
+            longest = max(longest, win_end-win_start+1)
         
         return longest
+            
