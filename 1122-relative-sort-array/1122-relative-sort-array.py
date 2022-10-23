@@ -4,32 +4,6 @@ class Solution:
         
         for idx, n in enumerate(arr2):
             order[n] = idx
-            
         
-        for i in range(0, len(arr1)):
-            min_order = i
-            
-            for j in range(i+1, len(arr1)) :
-                if order.get(arr1[j], float('inf')) <= order.get(arr1[min_order], float('inf')):
-                    min_order = j
-                    
-            arr1[i] , arr1[min_order] = arr1[min_order] , arr1[i]
-            
-        
-        last_sorted = 0
-        for i in range(len(arr1)):
-            if arr1[i] not in order:
-                last_sorted = i
-                break
-        
-        if last_sorted == 0:
-            return arr1
-            
-        for i in range(last_sorted, len(arr1)):
-            min_idx = i
-            for j in range(i+1, len(arr1)) :
-                if arr1[j] < arr1[min_idx]:
-                    min_idx = j
-            arr1[i] , arr1[min_idx] = arr1[min_idx] , arr1[i]
-        
-        return arr1
+        # max number in input is 1000 so we can shift the elements not in order by 1000 to be sorted after these presented in order
+        return sorted(arr1, key=lambda a: order.get(a, 1000 + a) )
