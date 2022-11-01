@@ -1,24 +1,37 @@
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        graph = collections.defaultdict(set)
-        seen = set()
+        n = len(edges)
+        parent = [i for i in range(n+1)]
+        rank = [1 for i in range(n+1)]
         
-        def haveConnection(source, target):
-            if source not in seen:
-                seen.add(source)
-                if source == target:
-                    return True
-                for nei in graph[source]:
-                    if haveConnection(nei, target):
-                        return True
+        def find(n):
+            p = parent[n]
+            
+            while p != parent[p]:
+                parent[p] = parent[parent[p]]
+                p = parent[p]
+            
+            return p
         
-        for s, t in edges:
-            seen = set()
+        def union(n1, n2):
+            p1 = find(n1)
+            p2 = find(n2)
             
-            if s in graph and t in graph and haveConnection(s, t):
-                return s, t
+            if p1 == p2:
+                return False
             
-            graph[s].add(t)
-            graph[t].add(s)
+            if rank[p1] > rank[p2]:
+                parent[p2] = p1
+                rank[p1] += rank[p2]
+            else:
+                parent[p1] = p2
+                rank[p2] += rank[p1]
+            
+            return True
+        
+        for n1, n2 in edges:
+            if not union(n1, n2):
+                return [n1, n2]
+        
             
             
