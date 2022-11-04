@@ -1,17 +1,23 @@
+from collections import defaultdict
 class Solution:
     def maximumImportance(self, n: int, roads: List[List[int]]) -> int:
-        cities_importance = [0] * n
+        importance = defaultdict(int)
         
-        # we calculate city importance by how many roads it connects
         for c1, c2 in roads:
-            cities_importance[c1] += 1
-            cities_importance[c2] += 1
+            importance[c1] += 1
+            importance[c2] += 1
+            
+        cities = sorted(importance.items(), key=lambda k: k[1], reverse=True)
         
-        # sort cities by importantce 
-        # then assing increasing wights starting from the smallest importance
-        cities_importance.sort()
-        for i in range(len(cities_importance)):
-            cities_importance[i] = cities_importance[i] * (i+1)
+        weights= [0] * n
+        for city, weight in cities:
+            weights[city] = n
+            n -= 1
 
-        return sum(cities_importance)
+        total_importance = 0
+        for c1, c2 in roads:
+            total_importance += weights[c1] + weights[c2]
+
+        return total_importance
+
 
